@@ -3,3 +3,6 @@
 body{
     background: #222;
 }
+#taskList::-webkit-scrollbar{
+display: none;
+}
