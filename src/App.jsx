@@ -9,9 +9,9 @@ function App() {
 
   return (
     <>
-      {/* <Login/>  */}
+      <Login/> 
       {/* <EmployeeDashboard/> */}
-      <AdminDashboard/>
+      {/* <AdminDashboard/> */}
     </>
   )
 }

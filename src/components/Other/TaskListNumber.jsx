@@ -2,22 +2,22 @@ import React from "react";
 
 const TaskListNumber = () => {
   return (
-    <div className="flex screen justify-between gap-5 mt-10 text-white">
-      <div className="px-9 py-6 rounded-xl  w-[45%] bg-blue-400">
-        <h2 className="text-3xl font-semibold">1</h2>
-        <h3 className="text-xl font-medium">New Task</h3>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 text-white">
+      <div className="px-8 py-6 rounded-xl bg-blue-500 shadow-md text-center">
+        <h2 className="text-4xl font-bold">1</h2>
+        <h3 className="text-lg font-medium">New Task</h3>
       </div>
-      <div className="px-9 py-6 rounded-xl  w-[45%] bg-green-400">
-        <h2 className="text-3xl font-semibold">3</h2>
-        <h3 className="text-xl font-medium">Completed Task</h3>
+      <div className="px-8 py-6 rounded-xl bg-green-500 shadow-md text-center">
+        <h2 className="text-4xl font-bold">3</h2>
+        <h3 className="text-lg font-medium">Completed Tasks</h3>
       </div>
-      <div className="px-9 py-6 rounded-xl  w-[45%] bg-yellow-400">
-        <h2 className="text-3xl font-semibold">0</h2>
-        <h3 className="text-xl font-medium">Accepted</h3>
+      <div className="px-8 py-6 rounded-xl bg-yellow-500 shadow-md text-center">
+        <h2 className="text-4xl font-bold">0</h2>
+        <h3 className="text-lg font-medium">Accepted</h3>
       </div>
-      <div className="px-9 py-6 rounded-xl  w-[45%] bg-red-400">
-        <h2 className="text-3xl font-semibold">0</h2>
-        <h3 className="text-xl font-medium">Failed Tasks</h3>
+      <div className="px-8 py-6 rounded-xl bg-red-500 shadow-md text-center">
+        <h2 className="text-4xl font-bold">0</h2>
+        <h3 className="text-lg font-medium">Failed Tasks</h3>
       </div>
     </div>
   );
