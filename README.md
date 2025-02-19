@@ -1,2 +1,2 @@
 # Employee Management System
-This is a react app about EMS or employee management System . Create Using React
+This is a react app about EMS or employee management System . Create Using React.
