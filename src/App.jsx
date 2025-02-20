@@ -1,18 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./components/Auth/Login";
 import AdminDashboard from "./components/DashBoard/AdminDashboard";
 import EmployeeDashboard from "./components/DashBoard/EmployeeDashboard";
-import { setLocalStorage } from "./utils/LocalStroage";
+import { getLocalStorage, setLocalStorage } from "./utils/LocalStroage";
 
 function App() {
-  useEffect(() => {
-    setLocalStorage( "employees","admin");
-  }, []);
+  // useEffect(() => {
+  //   // setLocalStorage( "employees","admin");
+  //   getLocalStorage("employees", "admin");
+
+  // }, []);
+  const [user, setUser] = useState(null);
+  const handleLogin = (email, password) => {
+    if (email == "admin@example.com" && password == "123") {
+      // console.log("this is valid admin");
+      setUser("admin");
+    } else if (email == "employee1@example.com" && password == "123") {
+      // console.log('this is valid user');
+      setUser("employee");
+    } else {
+      alert("invalid credential");
+    }
+  };
 
   return (
     <>
-      <Login />
+      {!user ? <Login handleLogin={handleLogin} /> : ""}
+      {/* <Login /> */}
       {/* <EmployeeDashboard/> */}
       {/* <AdminDashboard/> */}
     </>

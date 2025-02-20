@@ -194,17 +194,14 @@ const admin = [
     password: "123",
   },
 ];
-export const setLocalStorage = (key1,key2) => {
+export const setLocalStorage = (key1, key2) => {
   localStorage.setItem(key1, JSON.stringify(employees));
   localStorage.setItem(key2, JSON.stringify(admin));
 };
-export const getLocalStorage = (key) => {
-  return JSON.parse(localStorage.getItem(key));
-};
-export const getEmployees = () => {
-  return employees;
+export const getLocalStorage = (key1, key2) => {
+  const employees = JSON.parse(localStorage.getItem(key1));
+  const admin = JSON.parse(localStorage.getItem(key2));
+  //   console.log(employees);
+  // console.log(admin);
 };
 
-export const getAdmin = () => {
-  return admin;
-};
