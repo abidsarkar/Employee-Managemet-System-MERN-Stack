@@ -6,11 +6,7 @@ import EmployeeDashboard from "./components/DashBoard/EmployeeDashboard";
 import { getLocalStorage, setLocalStorage } from "./utils/LocalStroage";
 
 function App() {
-  // useEffect(() => {
-  //   // setLocalStorage( "employees","admin");
-  //   getLocalStorage("employees", "admin");
-
-  // }, []);
+  
   const [user, setUser] = useState(null);
   const handleLogin = (email, password) => {
     if (email == "admin@example.com" && password == "123") {
@@ -27,9 +23,8 @@ function App() {
   return (
     <>
       {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {/* <Login /> */}
-      {/* <EmployeeDashboard/> */}
-      {/* <AdminDashboard/> */}
+      {user === 'admin' ? <AdminDashboard/> : <EmployeeDashboard/>}
+      
     </>
   );
 }
