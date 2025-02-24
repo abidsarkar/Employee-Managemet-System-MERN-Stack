@@ -3,6 +3,7 @@ const employees = [
     id: 1,
     email: "employee1@example.com",
     password: "123",
+    name:"asik ahmed",
     tasks: [
       {
         title: "Fix homepage bug",
@@ -40,6 +41,7 @@ const employees = [
     id: 2,
     email: "employee2@example.com",
     password: "123",
+    name:"faruk bin talha",
     tasks: [
       {
         title: "Database Backup",
@@ -114,6 +116,7 @@ const employees = [
     id: 4,
     email: "employee4@example.com",
     password: "123",
+    name:"asif mahmud",
     tasks: [
       {
         title: "Update Landing Page",
@@ -151,6 +154,7 @@ const employees = [
     id: 5,
     email: "employee5@example.com",
     password: "123",
+    name:"samiha binte fahimin",
     tasks: [
       {
         title: "Improve SEO",
@@ -194,12 +198,14 @@ const admin = [
     password: "123",
   },
 ];
-export const setLocalStorage = () => {
-  localStorage.setItem('employees', JSON.stringify(employees));
-  localStorage.setItem('admin', JSON.stringify(admin));
+export const setLocalStorage = (employees, admin) => {
+  localStorage.setItem("employees", JSON.stringify(employees));
+  localStorage.setItem("admin", JSON.stringify(admin));
 };
+
 export const getLocalStorage = () => {
-  const employees = JSON.parse(localStorage.getItem('employees'));
-  const admin = JSON.parse(localStorage.getItem('admin'));
+  const employees = JSON.parse(localStorage.getItem("employees")) || [];
+  const admin = JSON.parse(localStorage.getItem("admin")) || null;
   return { employees, admin };
 };
+
