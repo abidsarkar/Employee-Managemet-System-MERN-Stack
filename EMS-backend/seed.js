@@ -1,3 +1,31 @@
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+
+// Define Schemas
+const EmployeeSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  name: String,
+  tasks: Array,
+});
+
+const AdminSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+});
+
+// Create Models
+const Employee = mongoose.model("Employee", EmployeeSchema);
+const Admin = mongoose.model("Admin", AdminSchema);
+
 const employees = [
   {
     
@@ -199,14 +227,22 @@ const admin = [
     password: "123",
   },
 ];
-// export const setLocalStorage = (employees, admin) => {
-//   localStorage.setItem("employees", JSON.stringify(employees));
-//   localStorage.setItem("admin", JSON.stringify(admin));
-// };
+// Function to Insert Data
+const seedDatabase = async () => {
+  try {
+    await Employee.deleteMany(); // Clear old employees
+    await Admin.deleteMany(); // Clear old admins
 
-// export const getLocalStorage = () => {
-//   const employees = JSON.parse(localStorage.getItem("employees")) || [];
-//   const admin = JSON.parse(localStorage.getItem("admin")) || null;
-//   return { employees, admin };
-// };
+    await Employee.insertMany(employees); // Insert new employees
+    await Admin.insertMany(admin); // Insert new admins
 
+    console.log("✅ Data Inserted Successfully!");
+    mongoose.connection.close(); // Close connection
+  } catch (error) {
+    console.error("❌ Error Inserting Data:", error);
+    mongoose.connection.close();
+  }
+};
+
+// Run Seed Function
+seedDatabase();

@@ -1,26 +1,20 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getLocalStorage } from "../utils/LocalStroage";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { employees, admin } = getLocalStorage();
-    setUserData({ employees: employees || [], admin: admin || null });
-    setLoading(false); // Set loading to false after fetching data
+    axios.get("http://localhost:5000/employees").then((res) => {
+      setUserData({ employees: res.data });
+      console.log(userData);
+    });
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // Prevents rendering children before data is available
-  }
-
   return (
-    <AuthContext.Provider value={userData}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={userData}>{children}</AuthContext.Provider>
   );
 };
 
