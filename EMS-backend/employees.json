@@ -1,0 +1,98 @@
+[
+    {
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "password": "123",
+      "tasks": [
+        {
+          "title": "Design Homepage UI",
+          "description": "Create a modern UI for the homepage.",
+          "file_source": "https://example.com/design1.jpg",
+          "category": "UI/UX",
+          "status": "pending",
+          "comment_by_employee": null,
+          "createdAt": "2025-02-21",
+          "task_deadline": "2025-02-28",
+          "updatedAt": null,
+          "submit_date": null
+        }
+      ]
+    },
+    {
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "password": "123",
+      "tasks": [
+        {
+          "title": "Develop API",
+          "description": "Build authentication endpoints.",
+          "file_source": "https://example.com/api_doc.pdf",
+          "category": "Backend",
+          "status": "pending",
+          "comment_by_employee": null,
+          "createdAt": "2025-02-22",
+          "task_deadline": "2025-02-29",
+          "updatedAt": null,
+          "submit_date": null
+        }
+      ]
+    },
+    {
+      "name": "Charlie Brown",
+      "email": "charlie@example.com",
+      "password": "123",
+      "tasks": [
+        {
+          "title": "Create Marketing Plan",
+          "description": "Outline a strategy for product launch.",
+          "file_source": "https://example.com/marketing_plan.pdf",
+          "category": "Marketing",
+          "status": "pending",
+          "comment_by_employee": null,
+          "createdAt": "2025-02-23",
+          "task_deadline": "2025-03-01",
+          "updatedAt": null,
+          "submit_date": null
+        }
+      ]
+    },
+    {
+      "name": "Diana King",
+      "email": "diana@example.com",
+      "password": "123",
+      "tasks": [
+        {
+          "title": "Write Blog Post",
+          "description": "Draft an article on UI trends.",
+          "file_source": "https://example.com/blog_draft.docx",
+          "category": "Content Writing",
+          "status": "pending",
+          "comment_by_employee": null,
+          "createdAt": "2025-02-24",
+          "task_deadline": "2025-03-02",
+          "updatedAt": null,
+          "submit_date": null
+        }
+      ]
+    },
+    {
+      "name": "Ethan Ray",
+      "email": "ethan@example.com",
+      "password": "123",
+      "tasks": [
+        {
+          "title": "Setup CI/CD Pipeline",
+          "description": "Automate deployment with GitHub Actions.",
+          "file_source": "https://example.com/cicd_config.yml",
+          "category": "DevOps",
+          "status": "pending",
+          "comment_by_employee": null,
+          "createdAt": "2025-02-25",
+          "task_deadline": "2025-03-03",
+          "updatedAt": null,
+          "submit_date": null
+        }
+      ]
+    }
+  ]
+  
