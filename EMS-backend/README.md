@@ -13,7 +13,7 @@ Make sure you have the following installed:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/EMS-backend.git
+    git clone https://github.com/abidsarkar/Employee-Managemet-System-MERN-Stack.git
     cd EMS-backend
     ```
 
@@ -26,14 +26,14 @@ Make sure you have the following installed:
     ```env
     PORT=3000
     MONGODB_URI=mongodb://localhost:27017/ems
-    JWT_SECRET=your_jwt_secret
+    
     ```
 
 ## Running the Application
 
 1. Start the MongoDB server:
     ```bash
-    mongod
+    connect in mongoDBcompass
     ```
 
 2. Start the backend server:
@@ -41,21 +41,16 @@ Make sure you have the following installed:
     npm run dev
     ```
 
-3. The server should now be running at `http://localhost:3000`.
+3. The server should now be running at `http://localhost:5000`.
 
 ## Uploading Data
 
 To upload the data, use the following command:
 ```bash
-node seed.js
+node upload.js
 ```
 
-## Testing
 
-To run the tests, use the following command:
-```bash
-npm test
-```
 
 ## License
 
