@@ -12,7 +12,9 @@ const EmployeeTaskList = ({ email }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/employees/${email}/tasks`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks`
+        );
         setTasks(response.data.tasks);
         setLoading(false);
       } catch (error) {
@@ -29,57 +31,60 @@ const EmployeeTaskList = ({ email }) => {
       // Find the existing task
       const existingTask = tasks.find((task) => task._id === taskId);
       if (!existingTask) return alert("Task not found");
-  
+
       // Prepare updated task with all previous data
       const updatedTask = {
         ...existingTask, // Preserve all task fields
         status,
         updatedAt: new Date().toISOString(), // Update timestamp
-        submit_date: status === "finished" ? new Date().toISOString() : existingTask.submit_date, // Preserve previous date
+        submit_date:
+          status === "finished"
+            ? new Date().toISOString()
+            : existingTask.submit_date, // Preserve previous date
       };
-  
+
       // Send updated task to the backend
       await axios.put(
-        `http://localhost:5000/employees/${email}/tasks/${taskId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}`,
         updatedTask
       );
-  
+
       // Update local state
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
       );
-  
+
       alert(`Task status updated to ${status} successfully!`);
     } catch (error) {
       console.error("Error updating task status:", error);
       alert("Failed to update task status.");
     }
   };
-  
+
   const handleAddComment = async (taskId) => {
     try {
       // Find the existing task
       const existingTask = tasks.find((task) => task._id === taskId);
       if (!existingTask) return alert("Task not found");
-  
+
       // Preserve all task fields and add a comment
       const updatedTask = {
         ...existingTask, // Keep all existing data
         comment_by_employee: comment,
         updatedAt: new Date().toISOString(),
       };
-  
+
       // Send updated task to the backend
       await axios.put(
-        `http://localhost:5000/employees/${email}/tasks/${taskId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}`,
         updatedTask
       );
-  
+
       // Update local state
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
       );
-  
+
       setComment("");
       setTaskToComment(null);
       alert("Comment added successfully!");
@@ -88,9 +93,7 @@ const EmployeeTaskList = ({ email }) => {
       alert("Failed to add comment.");
     }
   };
-  
 
-  
   // Calculate remaining time from deadline
   const calculateRemainingTime = (deadline) => {
     const now = new Date();
@@ -122,7 +125,8 @@ const EmployeeTaskList = ({ email }) => {
     }
   };
 
-  if (loading) return <p className="text-center text-gray-400">Loading tasks...</p>;
+  if (loading)
+    return <p className="text-center text-gray-400">Loading tasks...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (

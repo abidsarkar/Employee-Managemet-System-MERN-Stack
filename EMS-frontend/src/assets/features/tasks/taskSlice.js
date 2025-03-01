@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const backend = "http://localhost:5000";
+
 // Async Thunks
 export const addTask = createAsyncThunk(
   "tasks/addTask",
   async ({ email, taskData }) => {
-    const response = await axios.post(`${backend}/employees/${email}/tasks`, taskData);
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks`, taskData);
     return response.data;
   }
 );
@@ -13,7 +13,7 @@ export const addTask = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async ({ email, taskId, updates }) => {
-    const response = await axios.put(`${backend}/employees/${email}/tasks/${taskId}`, updates);
+    const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}`, updates);
     return response.data;
   }
 );
@@ -21,7 +21,7 @@ export const updateTask = createAsyncThunk(
 export const submitTask = createAsyncThunk(
   "tasks/submitTask",
   async ({ email, taskId }) => {
-    const response = await axios.put(`${backend}/employees/${email}/tasks/${taskId}/submit`);
+    const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}/submit`);
     return response.data;
   }
 );
@@ -30,7 +30,7 @@ export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
   async ({ email, taskId }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/employees/${email}/tasks/${taskId}`);
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}`);
       return response.data; // Return the deleted task ID or relevant data
     } catch (err) {
       return rejectWithValue(err.response.data); // Pass the error response to the component

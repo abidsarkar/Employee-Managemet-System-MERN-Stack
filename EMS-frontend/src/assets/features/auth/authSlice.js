@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const backend = "http://localhost:5000";
+
 
 // Helper function to save user data to sessionStorage
 const saveUserToSessionStorage = (user) => {
@@ -19,7 +19,7 @@ export const adminLogin = createAsyncThunk(
   "auth/adminLogin",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${backend}/admin/login`, { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/admin/login`, { email, password });
       const user = { role: "admin", data: response.data.admin };
       saveUserToSessionStorage(user); // Save user data to sessionStorage
       return user;
@@ -34,7 +34,7 @@ export const employeeLogin = createAsyncThunk(
   "auth/employeeLogin",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${backend}/employee/login`, { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/employee/login`, { email, password });
       const user = { role: "employee", data: response.data.employee };
       saveUserToSessionStorage(user); // Save user data to sessionStorage
       return user;

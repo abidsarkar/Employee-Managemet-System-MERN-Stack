@@ -29,7 +29,7 @@ const CreateTask = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:5000/employees/${formData.assignedTo}/tasks`,
+        `${import.meta.env.VITE_BACKEND_URL}/employees/${formData.assignedTo}/tasks`,
         taskData
       );
 

@@ -5,7 +5,7 @@ import axios from "axios";
 export const fetchEmployees = createAsyncThunk(
   "employees/fetchEmployees",
   async () => {
-    const response = await axios.get("http://localhost:5000/employees");
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/employees`);
     return response.data;
   }
 );
@@ -13,7 +13,7 @@ export const fetchEmployees = createAsyncThunk(
 export const createEmployee = createAsyncThunk(
   "employees/createEmployee",
   async (employeeData) => {
-    const response = await axios.post("http://localhost:5000/employees", employeeData);
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/employees`, employeeData);
     return response.data;
   }
 );
@@ -22,7 +22,7 @@ export const deleteEmployee = createAsyncThunk(
   "employees/deleteEmployee",
   async (email, { rejectWithValue }) => {
     try {
-      const response =await axios.delete(`http://localhost:5000/employees/${email}`);
+      const response =await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}`);
     return response.data;
   } catch (err) {
     return rejectWithValue(err.response.data);

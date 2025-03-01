@@ -24,7 +24,7 @@ const TaskList = ({ email }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/employees/${email}/tasks`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks`);
         setTasks(response.data.tasks);
         setLoading(false);
       } catch (error) {
@@ -66,7 +66,7 @@ const TaskList = ({ email }) => {
       console.log("Sending updates to backend:", updates); // Log the payload
   
       const response = await axios.put(
-        `http://localhost:5000/employees/${email}/tasks/${taskId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/employees/${email}/tasks/${taskId}`,
         updates
       );
   
