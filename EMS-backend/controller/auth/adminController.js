@@ -14,13 +14,10 @@ exports.createAdmin = async (req, res) => {
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
     const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = await Admin.create({ name, email, password: hashedPassword });
-
-    const token = generateToken(admin, "admin");
+    await Admin.create({ name, email, password: hashedPassword });
 
     res.status(201).json({
       message: "Admin created successfully",
-      token,
     });
   } catch (err) {
     console.error("Admin creation error:", err);
@@ -29,17 +26,51 @@ exports.createAdmin = async (req, res) => {
 };
 exports.loginAdmin = async (req, res) => {
   const { email, password } = req.body;
-  const admin = await Admin.findOne({ email });
-  if (!admin) return res.status(400).json({ message: "Admin not found" });
 
-  const validPass = await bcrypt.compare(password, admin.password);
-  if (!validPass) return res.status(400).json({ message: "Invalid password" });
+  try {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
 
-  const token = generateToken(admin, "admin");
+    const validPass = await bcrypt.compare(password, admin.password);
+    if (!validPass) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-  res.json({
-    message: "Login successful",
-    token,
-    admin: { id: admin._id, name: admin.name, email: admin.email, profilePicture: admin.profilePicture },
-  });
+    // ---- Generate Token ----
+    const token = generateToken(admin, "admin", admin.email);
+
+    // ---- Set Cookie Options ----
+    const cookieOptions = {
+      httpOnly: true, // Prevent JS access
+      secure: process.env.NODE_ENV === 'production', // ONLY send over HTTPS in production
+      sameSite: 'Lax', // Or 'Strict' or 'None' (if cross-site and secure:true)
+       maxAge: 10 * 24 * 60 * 60 * 1000 ,// 10 days in milliseconds (matches JWT expiry)
+      // Alternatively, use expires with a Date object
+       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000) // 10 days from now
+    };
+
+
+
+    // ---- Set Cookie ----
+    // Use a suitable name like 'accessToken' or 'token'
+    res.cookie('accessToken', token, cookieOptions);
+
+    // ---- Send Success Response (WITHOUT the token in the body) ----
+    res.status(200).json({
+      message: "Login successful",
+      // Token is now in the HttpOnly cookie, not here
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        profilePicture: admin.profilePicture,
+      },
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error during login" });
+  }
 };

@@ -1,9 +1,6 @@
 const Employee = require("../../model/DB/Employees");
 const bcrypt = require("bcryptjs");
 const generateToken = require("../../utils/generateToken");
-const Employee = require("../models/Employee");
-const bcrypt = require("bcryptjs");
-const generateToken = require("../utils/generateToken");
 
 exports.createEmployee = async (req, res) => {
   const { name, email, password } = req.body;
@@ -27,25 +24,42 @@ exports.createEmployee = async (req, res) => {
 
 exports.loginEmployee = async (req, res) => {
   const { email, password } = req.body;
-  const employee = await Employee.findOne({ email });
-  if (!employee) return res.status(400).json({ message: "Employee not found" });
+  try {
+    const employee = await Employee.findOne({ email });
+    if (!employee)
+      return res.status(400).json({ message: "Employee not found" });
 
-  const validPass = await bcrypt.compare(password, employee.password);
-  if (!validPass) return res.status(400).json({ message: "Invalid password" });
+    const validPass = await bcrypt.compare(password, employee.password);
+    if (!validPass)
+      return res.status(400).json({ message: "Invalid password" });
 
-  const token = generateToken(employee, "employee");
+    const token = generateToken(employee, "employee", employee.email);
+    // ---- Set Cookie Options ----
+    const cookieOptions = {
+      httpOnly: true, // Prevent JS access
+      secure: process.env.NODE_ENV === "production", // ONLY send over HTTPS in production
+      sameSite: "Lax", // Or 'Strict' or 'None' (if cross-site and secure:true)
+      maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days in milliseconds (matches JWT expiry)
+      // Alternatively, use expires with a Date object
+      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
+    };
+    // Use a suitable name like 'accessToken' or 'token'
+    res.cookie("accessToken", token, cookieOptions);
+    res.json({
+      message: "Login successful",
 
-  res.json({
-    message: "Login successful",
-    token,
-    employee: {
-      id: employee._id,
-      name: employee.name,
-      email: employee.email,
-      profilePicture:employee.profilePicture,
-      tasks: employee.tasks,
-    },
-  });
+      employee: {
+        id: employee._id,
+        name: employee.name,
+        email: employee.email,
+        profilePicture: employee.profilePicture,
+        tasks: employee.tasks,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error during login" });
+  }
 };
 
 exports.getAllEmployees = async (req, res) => {
