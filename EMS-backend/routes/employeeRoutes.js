@@ -13,8 +13,9 @@ router.post("/create",employeeCreationRateLimiter, verifyToken, checkRole("admin
 // Tasks
 router.get("/getTask", verifyToken, taskController.getEmployeeTasks);
 router.post("/addTask", verifyToken, checkRole("admin"), taskController.addTask);
-router.put("/:email/tasks/:taskId", verifyToken, taskController.updateTask);
-router.put("/:email/tasks/:taskId/submit", verifyToken, checkRole("employee"), taskController.submitTask);
-router.delete("/:email/tasks/:taskId", verifyToken, checkRole("admin"), taskController.deleteTask);
+router.patch("/updateTaskAdmin", verifyToken,checkRole("admin"), taskController.updateTaskByAdmin);
+router.patch("/updateTaskEmployee", verifyToken,checkRole("employee"), taskController.updateTaskByEmployee);
+router.patch("/submitTask", verifyToken, checkRole("employee"), taskController.submitTask);
+router.delete("/deleteTask", verifyToken, checkRole("admin"), taskController.deleteTask);
 
 module.exports = router;

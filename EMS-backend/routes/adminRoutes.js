@@ -11,7 +11,7 @@ router.get("/login",loginRateLimiter, adminController.loginAdmin);
 router.post("/create",adminCreationRateLimiter,verifyToken,checkRole("admin"), adminController.createAdmin);
 
 // Protected Routes
-router.get("/employees", verifyToken, checkRole("admin"), employeeController.getAllEmployees);
-router.delete("/employees/:email", verifyToken, checkRole("admin"), employeeController.deleteEmployee);
+router.get("/getEmployeeList", verifyToken, checkRole("admin"), employeeController.getAllEmployeesList);
+router.delete("/DeleteEmployees/:email", verifyToken, checkRole("admin"), employeeController.deleteEmployee);
 
 module.exports = router;

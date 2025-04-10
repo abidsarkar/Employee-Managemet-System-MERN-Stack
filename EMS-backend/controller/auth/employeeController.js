@@ -62,9 +62,54 @@ exports.loginEmployee = async (req, res) => {
   }
 };
 
-exports.getAllEmployees = async (req, res) => {
-  const employees = await Employee.find();
-  res.json(employees);
+exports.getAllEmployeesList = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.body; // Default page is 1, default limit is 10
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+
+    if (
+      isNaN(pageNumber) ||
+      pageNumber < 1 ||
+      isNaN(limitNumber) ||
+      limitNumber < 1
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Invalid page or limit parameters" });
+    }
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const employees = await Employee.find().skip(skip).limit(limitNumber);
+
+    const totalEmployees = await Employee.countDocuments();
+    const totalPages = Math.ceil(totalEmployees / limitNumber);
+
+    const formattedEmployees = employees.map((employee) => ({
+      employeesId: employee._id,
+      employeesName: employee.name,
+      employeesEmail: employee.email,
+      employeesProfilePicture: employee.profilePicture,
+      // Add other properties as needed
+    }));
+
+    res.json({
+      message: "Employee list fetched successfully",
+      employees: formattedEmployees,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages: totalPages,
+        totalItems: totalEmployees,
+        limitPerPage: limitNumber,
+        hasNextPage: pageNumber < totalPages,
+        hasPreviousPage: pageNumber > 1,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    res.status(500).json({ message: "Failed to fetch employees" });
+  }
 };
 
 exports.deleteEmployee = async (req, res) => {
@@ -73,9 +118,16 @@ exports.deleteEmployee = async (req, res) => {
   try {
     const deleted = await Employee.findOneAndDelete({ email });
     if (!deleted)
-      return res.status(404).json({ message: "Employee not found" });
+      return res.status(404).json({
+        success: false,
+        message: `Employee with identifier '${email}' not found.`,
+      });
 
-    res.json({ message: "Employee deleted successfully", deleted });
+    res.status(200).json({
+      success: true,
+      message: `Employee with identifier '${email}' successfully deleted.`,
+      data: deleted, // Optionally include the deleted data for confirmation
+    });
   } catch (error) {
     console.error("Error deleting employee:", error);
     res.status(500).json({ message: "Internal server error" });

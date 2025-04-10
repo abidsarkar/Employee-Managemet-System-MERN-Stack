@@ -1,0 +1,340 @@
+{
+  "info": {
+    "_postman_id": "d852a550-50a7-4481-b309-0fe7df3ec9e9",
+    "name": "EMS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40417205"
+  },
+  "item": [
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "LOGIN",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"email\":\"abid1@gmail.com\",\r\n\"password\":\"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/admin/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "admin", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\":\"abid sarkar\",\r\n  \"email\":\"abid2@gmail.com\",\r\n  \"password\":\"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/admin/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "admin", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\":\"bob sarkar\",\r\n  \"email\":\"bob@gmail.com\",\r\n  \"password\":\"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add task to employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"bob@gmail.com\",\r\n  \"title\": \"Update Project Docs 1\",\r\n  \"description\": \"Revise the documentation for the project before the final release.\",\r\n  \"file_source\": \"https://example.com/uploads/doc_v2.pdf\",\r\n  \"category\": \"Documentation\",\r\n  \"task_deadline\": \"2025-04-15T17:00:00Z\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/addTask",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "addTask"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update task for employee",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"bob@gmail.com\",\r\n  \"taskId\": \"67f6b88c3600c3bf8f1a2d2f\", \r\n  \"title\": \"Updated Task Title by Admin\",\r\n  \"description\": \"This description has been updated by the administrator.\",\r\n  \"file_source\": \"updated_admin_file.zip\",\r\n  \"category\": \"urgent\",\r\n  \"status\": \"accepted\",\r\n  \"task_deadline\": \"2025-04-20T10:00:00.000Z\"\r\n  \r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/updateTaskAdmin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "updateTaskAdmin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get employee list",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 1,\r\n    \"limit\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/admin/getEmployeeList",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "admin", "getEmployeeList"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete employee",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/admin/DeleteEmployees/diana@example.com",
+              "host": ["{{base_url}}"],
+              "path": [
+                "api",
+                "v2",
+                "admin",
+                "DeleteEmployees",
+                "diana@example.com"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "employee",
+      "item": [
+        {
+          "name": "login",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"email\":\"bob@gmail.com\",\r\n\"password\":\"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get employee task",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"bob@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/getTask",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "getTask"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update status and comment of task",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"bob@gmail.com\",\r\n    \"taskId\": \"67f6b88c3600c3bf8f1a2d2f\", \r\n    \"status\": \"accepted\",\r\n    \"comment_by_employee\": \"I have accepted this task and working on the project.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/updateTaskEmployee",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "updateTaskEmployee"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "submit the task",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+				"value": "Bearer your token",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/employee/submitTask",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "employee", "submitTask"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
