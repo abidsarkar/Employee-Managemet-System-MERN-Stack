@@ -9,7 +9,14 @@ const app = express();
 // --- Now you can use app ---
 app.use(cookieParser()); // Enable Cookie Parsing
 app.use(express.json()); // Middleware to parse JSON bodies
-app.use(cors());         // Enable Cross-Origin Resource Sharing
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      callback(null, true); // allow all origins
+    },
+    credentials: true,
+  })
+); // Enable Cross-Origin Resource Sharing
 
 //db connection
 const connectDB = require("./model/config/dbConfig");

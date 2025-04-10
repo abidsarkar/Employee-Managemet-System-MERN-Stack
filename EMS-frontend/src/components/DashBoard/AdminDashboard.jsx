@@ -1,26 +1,31 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../assets/features/auth/authSlice";
 import { useNavigate } from "react-router";
+
+
+import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice";
 import CreateEmployee from "../task/CreateEmployee";
-import EmployeeList from "../list/EmployeeList";
 import CreateTask from "../task/CreateTask";
+import EmployeeList from "../list/EmployeeList";
 import TaskList from "../list/TaskList";
 
 const AdminDashboard = () => {
-  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
   const navigate = useNavigate();
 
   // Access the admin data from the Redux state
-  const user = useSelector((state) => state.auth.user);
-  const adminName = user?.data?.name || "Admin"; // Fallback to "Admin" if name is not available
   const [searchEmail, setSearchEmail] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to logout:", err);
+    }
   };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setSelectedEmployee(""); // Reset selectedEmployee
@@ -28,6 +33,7 @@ const AdminDashboard = () => {
       setSelectedEmployee(searchEmail); // Set the new email after a short delay
     }, 1000);
   };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       {/* Header */}
@@ -46,23 +52,26 @@ const AdminDashboard = () => {
       {/* Create Employee Section */}
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Create New Employee</h2>
-        <CreateEmployee />
+        <CreateEmployee/>
       </div>
 
       {/* Employee List Section */}
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Employee List</h2>
-        <EmployeeList />
+        {/* <EmployeeList /> */}
+
+        <EmployeeList/>
       </div>
 
       {/* Task Management Section */}
       <div>
         <h2 className="text-2xl font-semibold mb-4">Task Management</h2>
-        <div className="flex flex-col  gap-8">
+        <div className="flex flex-col gap-8">
           {/* Create Task */}
           <div>
             <h3 className="text-xl font-semibold mb-4">Create New Task</h3>
-            <CreateTask />
+            {/* <CreateTask /> */}
+            <CreateTask/>
           </div>
 
           {/* View Tasks for an Employee */}

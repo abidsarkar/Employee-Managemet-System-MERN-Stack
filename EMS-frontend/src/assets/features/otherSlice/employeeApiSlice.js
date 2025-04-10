@@ -9,19 +9,30 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
-    
+
     updateTaskByEmployee: builder.mutation({
       query: (updatedData) => ({
         url: "/employee/updateTaskEmployee",
         method: "PATCH",
         body: updatedData,
-        credentials:"include"
+        credentials: "include",
       }),
-      
+    }),
+
+    submitTask: builder.mutation({
+      query: (updatedData) => ({
+        url: "/employee/submitTask",
+        method: "PATCH",
+        body: updatedData,
+        credentials: "include",
+      }),
     }),
     // More employee-related endpoints
   }),
 });
 
-export const { useGetEmployeeTaskQuery, } =
-  employeeApiSlice;
+export const {
+  useGetEmployeeTaskQuery,
+  useUpdateTaskByEmployeeMutation,
+  useSubmitTaskMutation,
+} = employeeApiSlice;

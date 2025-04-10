@@ -1,13 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const baseUrl = import.meta.env.VITE_BACKEND_URL; // dynamic env-based backend
 
 export const apiSlice = createApi({
-  reducerPath: "api",
+  reducerPath: "api", // optional: can be renamed, but "api" is fine
   baseQuery: fetchBaseQuery({
     baseUrl,
-    credentials: 'include',
+    credentials: 'include', // sends cookies on cross-origin requests
   }),
-  tagTypes: ['Admin', 'Employee'],
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({}), // extend this in other slices
 });

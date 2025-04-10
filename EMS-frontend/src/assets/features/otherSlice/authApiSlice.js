@@ -1,28 +1,29 @@
+// authApiSlice.js
 import { apiSlice } from "../api/apiSlice";
+
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    adminLogin: builder.query({
+    adminLogin: builder.mutation({
       query: (credentials) => ({
         url: "/admin/login",
-        method: "GET",
+        method: "POST",
         body: credentials,
       }),
     }),
-    employeeLogin: builder.query({
+    employeeLogin: builder.mutation({
       query: (credentials) => ({
         url: "/employee/login",
-        method: "GET",
+        method: "POST",
         body: credentials,
       }),
     }),
-    logout: builder.query({
+    logout: builder.mutation({
       query: () => ({
         url: "/admin/logout",
-        method: "get",
+        method: "GET",
       }),
     }),
   }),
 });
 
-export const { useAdminLoginQuery, useEmployeeLoginQuery, useLogoutQuery } =
-  authApiSlice;
+export const { useAdminLoginMutation, useEmployeeLoginMutation, useLogoutMutation } = authApiSlice;

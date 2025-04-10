@@ -7,7 +7,7 @@ const checkRole = require("../controller/middleware/roleCheck");
 const {loginRateLimiter,adminCreationRateLimiter}  = require("../controller/middleware/rateLimiters");
 
 // Auth
-router.get("/login",loginRateLimiter, adminController.loginAdmin);
+router.post("/login",loginRateLimiter, adminController.loginAdmin);
 router.post("/create",adminCreationRateLimiter,verifyToken,checkRole("admin"), adminController.createAdmin);
 router.get("/logout",adminController.logoutAdmin);
 

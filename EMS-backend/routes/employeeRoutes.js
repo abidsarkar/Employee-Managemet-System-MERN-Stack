@@ -5,9 +5,10 @@ const taskController = require("../controller/task/taskController");
 const verifyToken = require("../controller/middleware/auth");
 const checkRole = require("../controller/middleware/roleCheck");
 const {employeeCreationRateLimiter}  = require("../controller/middleware/rateLimiters");
+const {loginRateLimiter}  = require("../controller/middleware/rateLimiters");
 
 // Auth
-router.get("/login", employeeController.loginEmployee);
+router.post("/login",loginRateLimiter, employeeController.loginEmployee);
 router.post("/create",employeeCreationRateLimiter, verifyToken, checkRole("admin"), employeeController.createEmployee);
 
 // Tasks

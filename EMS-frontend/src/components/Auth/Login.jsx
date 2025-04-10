@@ -1,51 +1,45 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { adminLogin, employeeLogin } from "../../assets/features/auth/authSlice";
-
+import { useAdminLoginMutation, useEmployeeLoginMutation } from "../../assets/features/otherSlice/authApiSlice";
+import axios from "axios";
 const Login = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(true); // Toggle between admin and employee login
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [adminLogin, { isLoading: adminLoading, error: adminError }] = useAdminLoginMutation();
+  const [employeeLogin, { isLoading: empLoading, error: empError }] = useEmployeeLoginMutation();
 
-  const submitHandle = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     try {
-      let resultAction;
+      let response;
       if (isAdmin) {
-        // Admin login
-        resultAction = await dispatch(adminLogin({ email, password }));
+        response = await adminLogin({ email, password }).unwrap();
+  
+        // If login is successful
+        
+        navigate("/admin");
       } else {
-        // Employee login
-        resultAction = await dispatch(employeeLogin({ email, password }));
-      }
-
-      // Check if the login was successful
-      if (adminLogin.fulfilled.match(resultAction) || employeeLogin.fulfilled.match(resultAction)) {
-        // Redirect based on role
-        const role = resultAction.payload.role;
-        if (role === "admin") {
-          navigate("/admin");
-        } else if (role === "employee") {
-          navigate("/employee");
-        }
+        response = await employeeLogin({ email, password }).unwrap();
+        navigate("/employee");
       }
     } catch (err) {
       console.error("Login failed:", err);
     }
   };
 
+  const loading = adminLoading || empLoading;
+  const error = (adminError || empError)?.data?.message;
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-900 px-4">
       <div className="border-2 border-emerald-600 p-8 md:p-12 bg-gray-800 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-white text-center mb-6">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <form className="flex flex-col" onSubmit={submitHandle}>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -80,10 +74,12 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <p className="text-white">Admin: abid@gmail.com pass:123</p>
-        <p className="text-white">Employee: bob@example.com pass:123</p>
-        <p className="text-red-600 italic">Note: As hosted in free service 1st time login may take time </p>
-        <p className="text-red-600 italic">Don't misuse the product</p>
+        {/* <p className="text-white mt-4">Admin: abid@gmail.com pass:12345678</p> */}
+        {/* <p className="text-white">Employee: bob@gmail.com pass:12345678</p> */}
+        {/* <p className="text-red-600 italic">Note: As hosted in free service 1st time login may take time</p> */}
+        {/* <p className="text-red-600 italic">Don't misuse the product</p> */}
+        <p className="text-red-600 italic">THe app is having some upgrade. some of the feature may not working</p>
+        
       </div>
     </div>
   );
