@@ -2,7 +2,7 @@
     {
       "name": "Alice Johnson",
       "email": "alice@example.com",
-      "password": "123",
+      "password": "12345678",
       "tasks": [
         {
           "title": "Design Homepage UI",
@@ -21,7 +21,7 @@
     {
       "name": "Bob Smith",
       "email": "bob@example.com",
-      "password": "123",
+      "password": "12345678",
       "tasks": [
         {
           "title": "Develop API",
@@ -40,7 +40,7 @@
     {
       "name": "Charlie Brown",
       "email": "charlie@example.com",
-      "password": "123",
+      "password": "12345678",
       "tasks": [
         {
           "title": "Create Marketing Plan",
@@ -59,7 +59,7 @@
     {
       "name": "Diana King",
       "email": "diana@example.com",
-      "password": "123",
+      "password": "12345678",
       "tasks": [
         {
           "title": "Write Blog Post",
@@ -78,7 +78,7 @@
     {
       "name": "Ethan Ray",
       "email": "ethan@example.com",
-      "password": "123",
+      "password": "12345678",
       "tasks": [
         {
           "title": "Setup CI/CD Pipeline",
