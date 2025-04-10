@@ -74,3 +74,20 @@ exports.loginAdmin = async (req, res) => {
     res.status(500).json({ message: "Server error during login" });
   }
 };
+// Admin logout (clears the httpOnly cookie)
+exports.logoutAdmin = (req, res) => {
+  try {
+    // Clear the 'accessToken' cookie by setting its maxAge to 0 or by using clearCookie
+    res.cookie('accessToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+      maxAge: 0, // Expire the cookie immediately
+    });
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ message: "Server error during logout" });
+  }
+};

@@ -9,6 +9,7 @@ const {loginRateLimiter,adminCreationRateLimiter}  = require("../controller/midd
 // Auth
 router.get("/login",loginRateLimiter, adminController.loginAdmin);
 router.post("/create",adminCreationRateLimiter,verifyToken,checkRole("admin"), adminController.createAdmin);
+router.get("/logout",adminController.logoutAdmin);
 
 // Protected Routes
 router.get("/getEmployeeList", verifyToken, checkRole("admin"), employeeController.getAllEmployeesList);
