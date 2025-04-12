@@ -12,11 +12,11 @@ const EmployeeList = () => {
   
   const [deleteEmployee] = useDeleteEmployeeMutation();
 
-  console.log("Full API Response:", apiResponse); // Debugging log
 
-  const handleDelete = async (employeeId) => {
+  const handleDelete = async (employeeEmail) => {
+    console.log(employeeEmail);
     try {
-      await deleteEmployee(employeeId).unwrap();
+      await deleteEmployee(employeeEmail).unwrap();
       refetch();
       alert("Employee deleted successfully!");
     } catch (error) {
@@ -39,7 +39,7 @@ const EmployeeList = () => {
               <p className="text-gray-400">{employee.employeesEmail}</p>
             </div>
             <button
-              onClick={() => handleDelete(employee.employeesId)}
+              onClick={() => handleDelete(employee.employeesEmail)}
               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
             >
               Delete

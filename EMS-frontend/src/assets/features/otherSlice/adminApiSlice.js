@@ -51,8 +51,8 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     deleteEmployee: builder.mutation({
-      query: (employeeId) => ({
-        url: `/admin/employees/${employeeId}`,
+      query: (employeeEmail) => ({
+        url: `/admin/DeleteEmployees/${employeeEmail}`,
         method: "DELETE",
         credentials: "include",
       }),
