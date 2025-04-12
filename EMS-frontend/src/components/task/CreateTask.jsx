@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { 
+  useAddTaskMutation,
+  useGetAllEmployeesListQuery 
+} from "../../assets/features/otherSlice/adminApiSlice";
 
 const CreateTask = () => {
   const [formData, setFormData] = useState({
@@ -11,31 +14,18 @@ const CreateTask = () => {
     assignedTo: ""
   });
 
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // RTK Query hooks
+  const [addTask, { isLoading }] = useAddTaskMutation();
+  const { 
+    data: employeesData, 
+    isLoading: isEmployeesLoading, 
+    isError: isEmployeesError 
+  } = useGetAllEmployeesListQuery({ page: 1, limit: 100 });
+
   const [error, setError] = useState("");
-
-  // Fetch employees when component mounts
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/admin/getEmployeeList`,
-          { withCredentials: true }
-        );
-        setEmployees(response.data.employees || []);
-      } catch (err) {
-        console.error("Error fetching employees:", err);
-        setError("Failed to load employees");
-      }
-    };
-
-    fetchEmployees();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     try {
@@ -48,13 +38,9 @@ const CreateTask = () => {
         task_deadline: formData.task_deadline
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/employee/addTask`,
-        taskData,
-        { withCredentials: true }
-      );
+      const response = await addTask(taskData).unwrap();
 
-      if (response.data.message === "Task created") {
+      if (response.message === "Task created") {
         alert("Task created successfully!");
         // Reset form
         setFormData({
@@ -65,14 +51,10 @@ const CreateTask = () => {
           task_deadline: "",
           assignedTo: ""
         });
-      } else {
-        throw new Error(response.data.message || "Failed to create task");
       }
     } catch (err) {
       console.error("Task creation error:", err);
-      setError(err.response?.data?.message || "Failed to create task");
-    } finally {
-      setLoading(false);
+      setError(err.data?.message || "Failed to create task");
     }
   };
 
@@ -102,7 +84,7 @@ const CreateTask = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
             required
           />
         </div>
@@ -113,7 +95,7 @@ const CreateTask = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
             rows={4}
             required
           />
@@ -126,7 +108,7 @@ const CreateTask = () => {
             name="file_source"
             value={formData.file_source}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
           />
         </div>
 
@@ -137,7 +119,7 @@ const CreateTask = () => {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
             required
           />
         </div>
@@ -149,7 +131,7 @@ const CreateTask = () => {
             name="task_deadline"
             value={formData.task_deadline}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
             required
           />
         </div>
@@ -162,24 +144,27 @@ const CreateTask = () => {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
             required
+            disabled={isEmployeesLoading || isEmployeesError}
           >
             <option value="">Select Employee</option>
-            {employees.map(employee => (
-              <option key={employee._id} value={employee.email}>
-                {employee.name} ({employee.email})
+            {employeesData?.employees?.map(employee => (
+              <option key={employee.employeesId} value={employee.employeesEmail}>
+                {employee.employeesName} ({employee.employeesEmail})
               </option>
             ))}
           </select>
+          {isEmployeesLoading && <p className="text-gray-400 text-sm mt-1">Loading employees...</p>}
+          {isEmployeesError && <p className="text-red-400 text-sm mt-1">Error loading employees</p>}
         </div>
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={isLoading}
           className={`w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {loading ? "Creating Task..." : "Create Task"}
+          {isLoading ? "Creating Task..." : "Create Task"}
         </button>
       </form>
     </div>
