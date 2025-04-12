@@ -70,6 +70,30 @@ exports.loginAdmin = async (req, res) => {
     res.status(500).json({ message: "Server error during login" });
   }
 };
+// Add this to your existing Admin controller file
+exports.getAdminInfo = async (req, res) => {
+  try {
+    // The admin info is already attached to req.user by the auth middleware
+    const admin = req.user;
+    const adminDetails=  await Admin.findById(admin.id)
+    if (!adminDetails) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+    res.status(200).json({
+      message: "Admin info retrieved successfully",
+      admin: {
+        id: adminDetails._id,
+        name: adminDetails.name,
+        email: adminDetails.email,
+        profilePicture: adminDetails.profilePicture,
+        
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching admin info:", error);
+    res.status(500).json({ message: "Server error while fetching admin info" });
+  }
+};
 // Admin logout (clears the httpOnly cookie)
 exports.logoutAdmin = (req, res) => {
   try {

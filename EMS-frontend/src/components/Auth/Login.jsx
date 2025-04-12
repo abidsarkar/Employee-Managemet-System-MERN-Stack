@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAdminLoginMutation, useEmployeeLoginMutation } from "../../assets/features/otherSlice/authApiSlice";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../assets/features/authSlice";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -9,7 +11,7 @@ const Login = () => {
   const [isAdmin, setIsAdmin] = useState(true);
   const [adminLogin, { isLoading: adminLoading, error: adminError }] = useAdminLoginMutation();
   const [employeeLogin, { isLoading: empLoading, error: empError }] = useEmployeeLoginMutation();
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -18,12 +20,13 @@ const Login = () => {
       let response;
       if (isAdmin) {
         response = await adminLogin({ email, password }).unwrap();
-  
+        dispatch(setCredentials({ role: "admin", data: response.admin }));
         // If login is successful
         
         navigate("/admin");
       } else {
         response = await employeeLogin({ email, password }).unwrap();
+        dispatch(setCredentials({ role: "employee", data: response.employee }));
         navigate("/employee");
       }
     } catch (err) {

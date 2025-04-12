@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -7,19 +7,29 @@ import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice
 import CreateEmployee from "../task/CreateEmployee";
 import CreateTask from "../task/CreateTask";
 import EmployeeList from "../list/EmployeeList";
-import TaskList from "../list/TaskList";
+import { useGetAdminInfoQuery } from "../../assets/features/otherSlice/adminApiSlice";
 
 const AdminDashboard = () => {
   const [logout] = useLogoutMutation();
+  const { 
+    data: adminInfo, 
+    isLoading: isAdminLoading, 
+    isError: isAdminError, 
+    error: adminError 
+  } = useGetAdminInfoQuery();
+  
+
+
   const navigate = useNavigate();
 
   // Access the admin data from the Redux state
   const [searchEmail, setSearchEmail] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState("");
-
+ 
   const handleLogout = async () => {
     try {
       await logout().unwrap();
+      dispatch(clearCredentials()); // <-- Clear Redux state
       navigate("/");
     } catch (err) {
       console.error("Failed to logout:", err);
@@ -33,6 +43,12 @@ const AdminDashboard = () => {
       setSelectedEmployee(searchEmail); // Set the new email after a short delay
     }, 1000);
   };
+ // Display loading or error states if needed
+ if (isAdminLoading) return <div className="min-h-screen bg-gray-900 text-white p-8">Loading admin information...</div>;
+ if (isAdminError) return <div className="min-h-screen bg-gray-900 text-white p-8">Error loading admin information: {adminError?.data?.message || adminError.message}</div>;
+
+ // Use adminInfo from query instead of Redux store
+ const adminName = adminInfo?.admin?.name || "Admin";
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">

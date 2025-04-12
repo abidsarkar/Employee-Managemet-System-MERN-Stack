@@ -64,7 +64,9 @@ exports.loginEmployee = async (req, res) => {
 
 exports.getAllEmployeesList = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.body; // Default page is 1, default limit is 10
+     // Support both GET (query params) and POST (body)
+     const page = req.body.page || req.query.page || 1;
+     const limit = req.body.limit || req.query.limit || 10; // Default page is 1, default limit is 10
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
 
@@ -93,6 +95,7 @@ exports.getAllEmployeesList = async (req, res) => {
       employeesProfilePicture: employee.profilePicture,
       // Add other properties as needed
     }));
+    
 
     res.json({
       message: "Employee list fetched successfully",

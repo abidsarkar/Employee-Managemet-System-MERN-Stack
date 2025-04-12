@@ -38,6 +38,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
       query: (pageInfo) => ({
         url: "/admin/getEmployeeList",
         method: "GET",
+        pageInfo,
+        credentials: "include",
+      }),
+    }),
+    getAdminInfo: builder.query({
+      query: (pageInfo) => ({
+        url: "/admin/adminInfo",
+        method: "GET",
         body: pageInfo,
         credentials: "include",
       }),
@@ -59,5 +67,6 @@ export const {
   useAddTaskMutation,
   useUpdateTaskAdminMutation,
   useGetAllEmployeesListQuery,
+  useGetAdminInfoQuery,
   useDeleteEmployeeMutation
 } = adminApiSlice;

@@ -10,7 +10,7 @@ const {loginRateLimiter,adminCreationRateLimiter}  = require("../controller/midd
 router.post("/login",loginRateLimiter, adminController.loginAdmin);
 router.post("/create",adminCreationRateLimiter,verifyToken,checkRole("admin"), adminController.createAdmin);
 router.get("/logout",adminController.logoutAdmin);
-
+router.get('/adminInfo',verifyToken ,checkRole("admin"), adminController.getAdminInfo);
 // Protected Routes
 router.get("/getEmployeeList", verifyToken, checkRole("admin"), employeeController.getAllEmployeesList);
 router.delete("/DeleteEmployees/:email", verifyToken, checkRole("admin"), employeeController.deleteEmployee);
