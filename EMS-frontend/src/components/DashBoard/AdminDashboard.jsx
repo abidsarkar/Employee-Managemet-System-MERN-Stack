@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {  useState } from "react";
 import { useNavigate } from "react-router";
-
-
-import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice";
 import CreateEmployee from "../task/CreateEmployee";
 import CreateTask from "../task/CreateTask";
 import EmployeeList from "../list/EmployeeList";
 import { useGetAdminInfoQuery } from "../../assets/features/otherSlice/adminApiSlice";
 import TaskList from "../list/TaskList";
+import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice";
 
 const AdminDashboard = () => {
   const [logout] = useLogoutMutation();
@@ -30,7 +27,7 @@ const AdminDashboard = () => {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      dispatch(clearCredentials()); // <-- Clear Redux state
+       // <-- Clear Redux state
       navigate("/");
     } catch (err) {
       console.error("Failed to logout:", err);

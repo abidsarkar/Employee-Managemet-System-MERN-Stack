@@ -10,6 +10,8 @@ const {loginRateLimiter}  = require("../controller/middleware/rateLimiters");
 // Auth
 router.post("/login",loginRateLimiter, employeeController.loginEmployee);
 router.post("/create",employeeCreationRateLimiter, verifyToken, checkRole("admin"), employeeController.createEmployee);
+router.get('/employeeInfo',verifyToken ,checkRole("employee"), employeeController.getEmployeeInfo);
+
 
 // Tasks
 router.get("/getTask", verifyToken, taskController.getEmployeeTasks);

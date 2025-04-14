@@ -1,29 +1,38 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice";
-import { useSelector } from "react-redux";
+
 import EmployeeTaskList from "../list/EmployeeTaskList";
+import { useLogoutMutation } from "../../assets/features/otherSlice/authApiSlice";
+import { useGetEmployeeInfoQuery } from "../../assets/features/otherSlice/employeeApiSlice";
 
 
 const EmployeeDashboard = () => {
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
-
+  const { 
+    data: employeeInfo, 
+    isLoading: isEmployeeLoading, 
+    isError: isEmployeeError, 
+    error: employeeError 
+  } =useGetEmployeeInfoQuery();
   // Access the employee data from the Redux state
-  const user = useSelector((state) => state.auth.user);
-  const employeeName = user?.data?.name || "Employee";
-  const employeeEmail = user?.data?.email || "";
+ 
+  
 
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      dispatch(clearCredentials()); // <-- Clear Redux state
       navigate("/");
     } catch (err) {
       console.error("Failed to logout:", err);
     }
   };
-
+// Display loading or error states if needed
+if (isEmployeeLoading) return <div className="min-h-screen bg-gray-900 text-white p-8">Loading Employee information...</div>;
+if (isEmployeeError) return <div className="min-h-screen bg-gray-900 text-white p-8">Error loading Employee information: {employeeError?.data?.message || employeeError.message}</div>;
+ // Use adminInfo from query instead of Redux store
+ const employeeName = employeeInfo?.employee?.name || "Employee";
+ const employeeEmail = employeeInfo?.employee?.email;
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       {/* Header */}

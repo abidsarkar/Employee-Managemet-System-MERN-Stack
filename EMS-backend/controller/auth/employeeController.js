@@ -47,21 +47,37 @@ exports.loginEmployee = async (req, res) => {
     res.cookie("accessToken", token, cookieOptions);
     res.json({
       message: "Login successful",
-
-      employee: {
-        id: employee._id,
-        name: employee.name,
-        email: employee.email,
-        profilePicture: employee.profilePicture,
-        tasks: employee.tasks,
-      },
     });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error during login" });
   }
 };
-
+// Add this to your existing getEmployeeInfo controller file
+exports.getEmployeeInfo = async (req, res) => {
+  try {
+    // The admin info is already attached to req.user by the auth middleware
+    const employee = req.user;
+    const EmployeeDetails=  await Employee.findById(employee.id)
+    if (!EmployeeDetails) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+    res.status(200).json({
+      message: "Employee info retrieved successfully",
+      employee: {
+        id: EmployeeDetails._id,
+        name: EmployeeDetails.name,
+        email: EmployeeDetails.email,
+        profilePicture: EmployeeDetails.profilePicture,
+        tasks:EmployeeDetails.tasks
+        
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching employee info:", error);
+    res.status(500).json({ message: "Server error while fetching admin info" });
+  }
+};
 exports.getAllEmployeesList = async (req, res) => {
   try {
      // Support both GET (query params) and POST (body)
