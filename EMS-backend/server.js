@@ -5,7 +5,8 @@ const cookieParser = require("cookie-parser");
 
 // ----> Create the Express app instance FIRST <----
 const app = express();
-
+// ✅ Trust the first proxy (like Render, Vercel, etc.)
+app.set("trust proxy", 1);
 // --- Now you can use app ---
 app.use(cookieParser()); // Enable Cookie Parsing
 app.use(express.json()); // Middleware to parse JSON bodies
