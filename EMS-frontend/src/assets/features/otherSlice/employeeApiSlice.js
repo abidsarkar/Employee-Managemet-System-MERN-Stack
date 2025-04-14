@@ -3,9 +3,8 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getEmployeeTask: builder.query({
       query: (employeeEmail) => ({
-        url: "/employee/getTask",
+        url: `/employee/getTask?email=${employeeEmail}`,
         method: "GET",
-        body: employeeEmail,
         credentials: "include",
       }),
     }),

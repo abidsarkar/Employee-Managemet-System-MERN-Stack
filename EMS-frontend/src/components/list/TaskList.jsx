@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useGetEmployeeTaskQuery, useUpdateTaskAdminMutation, useDeleteTaskMutation } from "../../assets/features/otherSlice/adminApiSlice";
+import { useGetEmployeeTaskQuery } from "../../assets/features/otherSlice/employeeApiSlice";
+import {  useDeleteTaskAdminMutation, useUpdateTaskAdminMutation } from "../../assets/features/otherSlice/adminApiSlice";
+
 
 const TaskList = ({ email }) => {
   const { data: tasksData, isLoading, isError, refetch } = useGetEmployeeTaskQuery(email);
+  
   const [updateTask] = useUpdateTaskAdminMutation();
-  const [deleteTask] = useDeleteTaskMutation();
-
-  const [editingTask, setEditingTask] = useState(null);
+  const [deleteTask] = useDeleteTaskAdminMutation();
+  const [editingTask, setEditingTask] = useState("");
   const [editFormData, setEditFormData] = useState({
     title: "",
     description: "",
@@ -56,6 +58,7 @@ const TaskList = ({ email }) => {
 
   const handleDeleteTask = async (taskId) => {
     try {
+      
       await deleteTask({ email, taskId }).unwrap();
       refetch();
       alert("Task deleted successfully!");
@@ -64,9 +67,9 @@ const TaskList = ({ email }) => {
       alert(error.data?.message || "Failed to delete task.");
     }
   };
-
   if (isLoading) return <p className="text-center text-gray-400">Loading tasks...</p>;
   if (isError) return <p className="text-center text-red-500">Failed to load tasks.</p>;
+
 
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
@@ -75,34 +78,43 @@ const TaskList = ({ email }) => {
           <li key={task._id} className="p-4 border border-gray-300 rounded-lg">
             {editingTask === task._id ? (
               <div className="space-y-4">
+                 <label className="block text-white mb-1">Task Title</label>
                 <input
                   type="text"
                   placeholder="Title"
                   value={editFormData.title}
                   onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
                 />
+                 <label className="block text-white mb-1">Description</label>
+
                 <textarea
                   placeholder="Description"
                   value={editFormData.description}
                   onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
                   rows={4}
                 />
+                 <label className="block text-white mb-1">Source Link</label>
+
                 <input
                   type="text"
                   placeholder="File Source"
                   value={editFormData.file_source}
                   onChange={(e) => setEditFormData({ ...editFormData, file_source: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
                 />
+                 <label className="block text-white mb-1">Category</label>
+
                 <input
                   type="text"
                   placeholder="Category"
                   value={editFormData.category}
                   onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
                 />
+                 <label className="block text-white mb-1">Status</label>
+
                 <select
                   value={editFormData.status}
                   onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
@@ -113,19 +125,14 @@ const TaskList = ({ email }) => {
                   <option value="failed">Failed</option>
                   <option value="accepted">Accepted</option>
                 </select>
-                <input
-                  type="text"
-                  placeholder="Comment by Employee"
-                  value={editFormData.comment_by_employee}
-                  onChange={(e) => setEditFormData({ ...editFormData, comment_by_employee: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
-                />
+                <label className="block text-white mb-1">Update Dead-Line</label>
+                
                 <input
                   type="date"
                   placeholder="Task Deadline"
                   value={editFormData.task_deadline}
                   onChange={(e) => setEditFormData({ ...editFormData, task_deadline: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-black"
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 text-white"
                 />
                 <div className="flex gap-2">
                   <button

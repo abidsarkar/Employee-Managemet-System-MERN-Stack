@@ -34,6 +34,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    deleteTaskAdmin: builder.mutation({
+      query: ({email, taskId}) => ({
+        url: `/employee/deleteTask/${email}/${taskId}`,
+        method: "DELETE",
+        
+        credentials: "include",
+      }),
+    }),
     getAllEmployeesList: builder.query({
       query: (pageInfo) => ({
         url: "/admin/getEmployeeList",
@@ -68,5 +76,6 @@ export const {
   useUpdateTaskAdminMutation,
   useGetAllEmployeesListQuery,
   useGetAdminInfoQuery,
-  useDeleteEmployeeMutation
+  useDeleteEmployeeMutation,
+  useDeleteTaskAdminMutation,
 } = adminApiSlice;

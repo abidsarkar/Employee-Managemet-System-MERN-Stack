@@ -1,21 +1,25 @@
 const Employee = require("../../model/DB/Employees");
 const { Types } = require("mongoose");
 exports.getEmployeeTasks = async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.query; // 👈 use query instead of body
+
   try {
     if (!email) {
-      res.status(400).json({ message: "email is required" });
+      return res.status(400).json({ message: "email is required" });
     }
+
     const employee = await Employee.findOne({ email });
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
+
     res.status(200).json({ success: true, tasks: employee.tasks || [] });
   } catch (error) {
     console.error("Error fetching tasks:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 exports.addTask = async (req, res) => {
   const { email, title, description, file_source, category, task_deadline } =

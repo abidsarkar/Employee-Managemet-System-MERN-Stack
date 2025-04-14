@@ -17,6 +17,6 @@ router.post("/addTask", verifyToken, checkRole("admin"), taskController.addTask)
 router.patch("/updateTaskAdmin", verifyToken,checkRole("admin"), taskController.updateTaskByAdmin);
 router.patch("/updateTaskEmployee", verifyToken,checkRole("employee"), taskController.updateTaskByEmployee);
 router.patch("/submitTask", verifyToken, checkRole("employee"), taskController.submitTask);
-router.delete("/deleteTask", verifyToken, checkRole("admin"), taskController.deleteTask);
+router.delete("/deleteTask/:email/:taskId", verifyToken, checkRole("admin"), taskController.deleteTask);
 
 module.exports = router;
