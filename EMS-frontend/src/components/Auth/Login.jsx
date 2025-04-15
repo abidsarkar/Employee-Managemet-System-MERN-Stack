@@ -77,11 +77,10 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {/* <p className="text-white mt-4">Admin: abid@gmail.com pass:12345678</p> */}
-        {/* <p className="text-white">Employee: bob@gmail.com pass:12345678</p> */}
-        {/* <p className="text-red-600 italic">Note: As hosted in free service 1st time login may take time</p> */}
-        {/* <p className="text-red-600 italic">Don't misuse the product</p> */}
-        <p className="text-red-600 italic">THe app is having some upgrade. some of the feature may not working</p>
+        <p className="text-white mt-4">Admin: abid@gmail.com pass:12345678</p>
+        <p className="text-white">Employee: bob@gmail.com pass:12345678</p>
+        <p className="text-red-600 italic">Note: As hosted in free service 1st time login may take time</p>
+        <p className="text-red-600 italic">Don't misuse the product</p>
         
       </div>
     </div>
