@@ -38,7 +38,7 @@ exports.loginEmployee = async (req, res) => {
     const cookieOptions = {
       httpOnly: true, // Prevent JS access
       secure: process.env.NODE_ENV === "production", // ONLY send over HTTPS in production
-      sameSite: "Lax", // Or 'Strict' or 'None' (if cross-site and secure:true)
+      sameSite: "None", // Or 'Strict' or 'None' (if cross-site and secure:true)
       maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days in milliseconds (matches JWT expiry)
       // Alternatively, use expires with a Date object
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now

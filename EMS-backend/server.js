@@ -16,6 +16,7 @@ app.use(
       callback(null, true); // allow all origins
     },
     credentials: true,
+    optionsSuccessStatus: 200
   })
 ); // Enable Cross-Origin Resource Sharing
 
